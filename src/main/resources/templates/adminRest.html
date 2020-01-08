@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Required meta tags -->
+    <meta charset=" utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Hello!</title>
+</head>
+<body>
+<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Project name</a>
+
+    <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+            <a class="nav-link" href="/logout">Logout</a>
+        </li>
+    </ul>
+</nav>
+<div class="container-fluid ">
+    <div class="row">
+        <div class="col-3 text-left m-0 py-3 px-0">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" id="v-pills-admin-tab" data-toggle="pill" href="#v-pills-admin" role="tab"
+                   aria-controls="v-pills-admin" aria-selected="true">admin</a>
+                <a class="nav-link" id="v-pills-user-tab" data-toggle="pill" href="#v-pills-user" role="tab"
+                   aria-controls="v-pills-user" aria-selected="false">user</a>
+            </div>
+        </div>
+        <div class="col bg-light">
+            <div class="tab-content  " id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="v-pills-admin" role="tabpanel"
+                     aria-labelledby="v-pills-admin-tab">
+                    <h1 class="py-3">Admin panel</h1>
+                    <nav class="mt-5">
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link active border" id="nav-usertbl-tab" data-toggle="tab"
+                               href="#nav-usertbl" role="tab" aria-controls="nav-usertbl" aria-selected="true">User
+                                table</a>
+                            <a class="nav-item nav-link" id="nav-newuser-tab" data-toggle="tab" href="#nav-newuser"
+                               role="tab" aria-controls="nav-newuser" aria-selected="false">new user</a>
+                        </div>
+                    </nav>
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active " id="nav-usertbl" role="tabpanel"
+                             aria-labelledby="nav-usertbl-tab">
+                            <h5 class="px-3">All users</h5>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Role</th>
+                                    <th scope="col">Login</th>
+                                    <th scope="col">Password</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Edit</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <th:block th:each="user,iter : ${users}">
+                                    <tr>
+                                        <th scope="row">[[${iter.index}+1]]</th>
+                                        <td>[[${user.role}]]</td>
+                                        <td>[[${user.username}]]</td>
+                                        <td>[[${user.password}]]</td>
+                                        <td>[[${user.email}]]</td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                    data-target="#windowModal"
+                                                    th:attr="
+                                                    data-login=${user.username},
+                                                    data-password=${user.password},
+                                                    data-email=${user.email},
+                                                    data-role=${user.role}"
+                                            >Edit
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </th:block>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane fade" id="nav-newuser" role="tabpanel" aria-labelledby="nav-newuser-tab">
+                            <div class="container m-0 p-0 border">
+                                <h5 class="px-3">Add new user</h5>
+                            </div>
+                            <div class="container text-center bg-white m-0 p-0 border">
+                                <form>
+                                    <div class="form-group row ">
+                                        <div class="col-4"></div>
+                                        <div class="col-4">
+                                            <label for="InputEmail"><b>Email address</b></label>
+                                            <input type="email" class="form-control" id="InputEmail" name="InputEmail"
+                                                   placeholder="Enter email">
+                                        </div>
+                                        <div class="col-4"></div>
+                                    </div>
+                                    <div class="form-group row ">
+                                        <div class="col-4"></div>
+                                        <div class="col-4">
+                                            <label for="InputLogin"><b>Login</b></label>
+                                            <input type="text" class="form-control" id="InputLogin" name="InputLogin"
+                                                   placeholder="login">
+                                        </div>
+                                        <div class="col-4"></div>
+                                    </div>
+                                    <div class="form-group row ">
+                                        <div class="col-4"></div>
+                                        <div class="col-4">
+                                            <label for="InputPassword"><b>Password</b></label>
+                                            <input type="password" class="form-control" id="InputPassword"
+                                                   name="InputPassword" placeholder="password">
+                                        </div>
+                                        <div class="col-4"></div>
+                                    </div>
+                                    <div class="form-group row ">
+                                        <div class="col-4"></div>
+                                        <div class="col-4">
+                                            <label for="InputRole"><b>Role</b></label>
+                                            <input type="text" class="form-control" id="InputRole" name="InputRole"
+                                                   placeholder="role">
+                                        </div>
+                                        <div class="col-4"></div>
+                                    </div>
+                                    <button type="submit" formaction="/api/users" formmethod="post"
+                                            class="btn btn-success">Add new user
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade bg-white " id="v-pills-user" role="tabpanel" aria-labelledby="v-pills-user-tab">
+                    <h1 class="py-3">User page</h1>
+                    Hello <span sec:authentication="name"/> <span sec:authentication="principal.authorities"/> !
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="windowModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Update user</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="form-group row ">
+                            <div class="col-4"></div>
+                            <div class="col-4">
+                                <label for="modalLogin"><b>Login</b></label>
+                                <input type="text" class="form-control" id="modalLogin" name="modalLogin"
+                                       placeholder="login" readonly>
+                            </div>
+                            <div class="col-4"></div>
+                        </div>
+
+                        <div class="form-group row ">
+                            <div class="col-4"></div>
+                            <div class="col-4">
+                                <label for="modalEmail"><b>Email address</b></label>
+                                <input type="email" class="form-control" id="modalEmail" name="modalEmail"
+                                       placeholder="Enter email">
+                            </div>
+                            <div class="col-4"></div>
+                        </div>
+
+                        <div class="form-group row ">
+                            <div class="col-4"></div>
+                            <div class="col-4">
+                                <label for="modalPassword"><b>Password</b></label>
+                                <input type="text" class="form-control" id="modalPassword" name="modalPassword"
+                                       placeholder="password">
+                            </div>
+                            <div class="col-4"></div>
+                        </div>
+                        <div class="form-group row ">
+                            <div class="col-4"></div>
+                            <div class="col-4">
+                                <label for="modalRole"><b>Role</b></label>
+                                <input type="text" class="form-control" id="modalRole" name="modalRole"
+                                       placeholder="role">
+                            </div>
+                            <div class="col-4"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary form-group-item" formmethod="post"
+                            formaction="/admin/update">Update user
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<script>
+    $('#windowModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget)
+        var login = button.data('login')
+        var email = button.data('email')
+        var password = button.data('password')
+        var role = button.data('role')
+        var modal = $(this)
+        modal.find('#modalLogin').val(login)
+        modal.find('#modalEmail').val(email)
+        modal.find('#modalPassword').val(password)
+        modal.find('#modalRole').val(role)
+    })
+</script>
+</body>
+</html>
+<!--
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form>
+    <fieldset>
+        <legend>User list</legend>
+        <p th:each="user : ${users}">
+            <label>Name</label>
+            <input type="text" th:name="'name'+${user.username}" th:value="${user.username}">
+            <label>Password</label>
+            <input type="password" th:name="'password'+${user.username}" th:value="${user.password}">
+            <label>Roles</label>
+            <th:block th:each="role,iter : ${user.roles}">
+                <input type="text" th:name="${user.username}+${iter.index}" th:value="${role}">
+            </th:block>
+
+            <input type="text" th:name="'addrole'+${user.username}" placeholder="Add new role">
+            <button formaction="/admin/delete " formmethod="post" name="update" th:value="${user.username}">
+                Delete
+            </button>
+            <button formaction="/admin/update " formmethod="post" name="update" th:value="${user.username}">
+                Update
+            </button>
+        </p>
+        </c:forEach>
+    </fieldset>
+    <p>
+        <label>Name</label><input type="text" name="nameToAdd">
+        <label>password</label><input type="password" name="passwordToAdd">
+        <label>role</label><input type="text" name="roleToAdd">
+        <button formaction="/admin/add" formmethod="post" name="update" value="addUser">Add User</button>
+    </p>
+</form>
+<div th:replace="logoutfooter :: logout"></div>
+</body>
+</html>-->
