@@ -25,13 +25,13 @@ public class UserController {
         Role role1 = new Role("admin",user);
         user.setRoles(new HashSet(Arrays.asList(role1)));
         userService.add(user);*/
-        List<User> usersList = userService.listUsers();
+        /*List<User> usersList = userService.listUsers();
         List<SimpleUser> users = new ArrayList<>();
         for(User user: usersList) {
             users.add(new SimpleUser(user.getUsername(),user.getPassword(),user.getEmail(),user.getRoles().get(0)));
         }
-        modelMap.addAttribute("users", users);
-        return "admin";
+        modelMap.addAttribute("users", users);*/
+        return "adminRest";
     }
     class SimpleUser {
         private String username;

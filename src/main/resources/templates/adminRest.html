@@ -49,53 +49,19 @@
                         <div class="tab-pane fade show active " id="nav-usertbl" role="tabpanel"
                              aria-labelledby="nav-usertbl-tab">
                             <h5 class="px-3">All users</h5>
-                            <table class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Role</th>
-                                    <th scope="col">Login</th>
-                                    <th scope="col">Password</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Edit</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <th:block th:each="user,iter : ${users}">
-                                    <tr>
-                                        <th scope="row">[[${iter.index}+1]]</th>
-                                        <td>[[${user.role}]]</td>
-                                        <td>[[${user.username}]]</td>
-                                        <td>[[${user.password}]]</td>
-                                        <td>[[${user.email}]]</td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                    data-target="#windowModal"
-                                                    th:attr="
-                                                    data-login=${user.username},
-                                                    data-password=${user.password},
-                                                    data-email=${user.email},
-                                                    data-role=${user.role}"
-                                            >Edit
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </th:block>
-
-                                </tbody>
-                            </table>
+                            <div id="usertable"></div>
                         </div>
                         <div class="tab-pane fade" id="nav-newuser" role="tabpanel" aria-labelledby="nav-newuser-tab">
                             <div class="container m-0 p-0 border">
                                 <h5 class="px-3">Add new user</h5>
                             </div>
                             <div class="container text-center bg-white m-0 p-0 border">
-                                <form>
+                                <form id="idForm">
                                     <div class="form-group row ">
                                         <div class="col-4"></div>
                                         <div class="col-4">
-                                            <label for="InputEmail"><b>Email address</b></label>
-                                            <input type="email" class="form-control" id="InputEmail" name="InputEmail"
+                                            <label for="email"><b>Email address</b></label>
+                                            <input type="email" class="form-control" name="email"
                                                    placeholder="Enter email">
                                         </div>
                                         <div class="col-4"></div>
@@ -103,8 +69,8 @@
                                     <div class="form-group row ">
                                         <div class="col-4"></div>
                                         <div class="col-4">
-                                            <label for="InputLogin"><b>Login</b></label>
-                                            <input type="text" class="form-control" id="InputLogin" name="InputLogin"
+                                            <label for="username"><b>Login</b></label>
+                                            <input type="text" class="form-control" name="username"
                                                    placeholder="login">
                                         </div>
                                         <div class="col-4"></div>
@@ -112,30 +78,30 @@
                                     <div class="form-group row ">
                                         <div class="col-4"></div>
                                         <div class="col-4">
-                                            <label for="InputPassword"><b>Password</b></label>
-                                            <input type="password" class="form-control" id="InputPassword"
-                                                   name="InputPassword" placeholder="password">
+                                            <label for="password"><b>Password</b></label>
+                                            <input type="password" class="form-control" name="password"
+                                                   placeholder="password">
                                         </div>
                                         <div class="col-4"></div>
                                     </div>
                                     <div class="form-group row ">
                                         <div class="col-4"></div>
                                         <div class="col-4">
-                                            <label for="InputRole"><b>Role</b></label>
-                                            <input type="text" class="form-control" id="InputRole" name="InputRole"
-                                                   placeholder="role">
+                                            <label for="role"><b>Role</b></label>
+                                            <input type="text" class="form-control" name="role" placeholder="role">
                                         </div>
                                         <div class="col-4"></div>
                                     </div>
-                                    <button type="submit" formaction="/api/users" formmethod="post"
-                                            class="btn btn-success">Add new user
+                                    <button type="button" id="addButton" class="btn btn-success" formaction="/admin"
+                                            formmethod="get">Add new user
                                     </button>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade bg-white " id="v-pills-user" role="tabpanel" aria-labelledby="v-pills-user-tab">
+                <div class="tab-pane fade bg-white " id="v-pills-user" role="tabpanel"
+                     aria-labelledby="v-pills-user-tab">
                     <h1 class="py-3">User page</h1>
                     Hello <span sec:authentication="name"/> <span sec:authentication="principal.authorities"/> !
                 </div>
@@ -148,7 +114,7 @@
      aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form>
+            <form id="modalForm">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Update user</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -160,8 +126,8 @@
                         <div class="form-group row ">
                             <div class="col-4"></div>
                             <div class="col-4">
-                                <label for="modalLogin"><b>Login</b></label>
-                                <input type="text" class="form-control" id="modalLogin" name="modalLogin"
+                                <label for="username"><b>Login</b></label>
+                                <input type="text" class="form-control" id="username" name="username"
                                        placeholder="login" readonly>
                             </div>
                             <div class="col-4"></div>
@@ -170,8 +136,8 @@
                         <div class="form-group row ">
                             <div class="col-4"></div>
                             <div class="col-4">
-                                <label for="modalEmail"><b>Email address</b></label>
-                                <input type="email" class="form-control" id="modalEmail" name="modalEmail"
+                                <label for="email"><b>Email address</b></label>
+                                <input type="email" class="form-control" id="email" name="email"
                                        placeholder="Enter email">
                             </div>
                             <div class="col-4"></div>
@@ -180,8 +146,8 @@
                         <div class="form-group row ">
                             <div class="col-4"></div>
                             <div class="col-4">
-                                <label for="modalPassword"><b>Password</b></label>
-                                <input type="text" class="form-control" id="modalPassword" name="modalPassword"
+                                <label for="password"><b>Password</b></label>
+                                <input type="text" class="form-control" id="password" name="password"
                                        placeholder="password">
                             </div>
                             <div class="col-4"></div>
@@ -189,8 +155,8 @@
                         <div class="form-group row ">
                             <div class="col-4"></div>
                             <div class="col-4">
-                                <label for="modalRole"><b>Role</b></label>
-                                <input type="text" class="form-control" id="modalRole" name="modalRole"
+                                <label for="role"><b>Role</b></label>
+                                <input type="text" class="form-control" id="role" name="role"
                                        placeholder="role">
                             </div>
                             <div class="col-4"></div>
@@ -199,8 +165,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary form-group-item" formmethod="post"
-                            formaction="/admin/update">Update user
+                    <button type="button" id="modalButton" class="btn btn-primary form-group-item" data-dismiss="modal">
+                        Update user
                     </button>
                 </div>
             </form>
@@ -209,9 +175,7 @@
 </div>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
@@ -226,52 +190,103 @@
         var password = button.data('password')
         var role = button.data('role')
         var modal = $(this)
-        modal.find('#modalLogin').val(login)
-        modal.find('#modalEmail').val(email)
-        modal.find('#modalPassword').val(password)
-        modal.find('#modalRole').val(role)
+        modal.find('#username').val(login)
+        modal.find('#email').val(email)
+        modal.find('#password').val(password)
+        modal.find('#role').val(role)
     })
+</script>
+<script>
+    $(function () {
+        $.ajax({
+            url: '/api/users',
+            dataType: 'json',
+            success: function (data) {
+                reloadTable(data)
+            }
+        })
+    })
+</script>
+<script>
+    $('#modalButton').click(function (e) {
+        var form = $("#modalForm");
+        var data = getFormData(form);
+        console.log(data)
+        $.ajax({
+            type: 'PUT',
+            url: '/api/users',
+            data: data,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                $.ajax({
+                    url: '/api/users',
+                    dataType: 'json',
+                    success: function (data) {
+                        reloadTable(data)
+                    }
+                })
+            }
+        })
+    })
+
+    $('#addButton').click(function (e) {
+        var form = $("#idForm");
+        var data = getFormData(form);
+        console.log(data)
+        $.ajax({
+            type: 'POST',
+            url: '/api/users',
+            data: data,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                $.ajax({
+                    url: '/api/users',
+                    dataType: 'json',
+                    success: function (data) {
+                        reloadTable(data)
+                    }
+                })
+            }
+        })
+        $('.nav-tabs a[href="#nav-usertbl"]').tab('show')
+        $('#idForm input').val("")
+    })
+
+    function getFormData($form) {
+        var unindexed_array = $form.serializeArray();
+        var indexed_array = {};
+        $.map(unindexed_array, function (n, i) {
+            indexed_array[n['name']] = n['value'];
+        });
+        return JSON.stringify(indexed_array);
+    }
+</script>
+<script>
+    function reloadTable(data) {
+        console.log(data)
+        var html = '<table class="table table-striped">\n' +
+            '                                <thead>\n' +
+            '                                <tr>\n' +
+            '                                    <th scope="col">#</th>\n' +
+            '                                    <th scope="col">Role</th>\n' +
+            '                                    <th scope="col">Login</th>\n' +
+            '                                    <th scope="col">Password</th>\n' +
+            '                                    <th scope="col">Email</th>\n' +
+            '                                    <th scope="col">Edit</th>\n' +
+            '                                </tr>\n' +
+            '                                </thead>\n' +
+            '                                <tbody>'
+        $.each(data, function (i, value) {
+            html += '<tr><th scope="row">' + (i + 1) + '</th><td>' + value.role + '</td><td>' + value.username + '</td><td>' + value.password + '</td><td>' + value.email +
+                '</td><td>' + '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#windowModal" data-login="' +
+                value.username + '" data-password="' + value.password + '" data-email="' + value.email + '" data-role="' + value.role + '">Edit</button></td></tr>'
+        })
+        html += '</tbody></table>'
+        $('#usertable').html(html)
+
+    }
 </script>
 </body>
 </html>
-<!--
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<form>
-    <fieldset>
-        <legend>User list</legend>
-        <p th:each="user : ${users}">
-            <label>Name</label>
-            <input type="text" th:name="'name'+${user.username}" th:value="${user.username}">
-            <label>Password</label>
-            <input type="password" th:name="'password'+${user.username}" th:value="${user.password}">
-            <label>Roles</label>
-            <th:block th:each="role,iter : ${user.roles}">
-                <input type="text" th:name="${user.username}+${iter.index}" th:value="${role}">
-            </th:block>
-
-            <input type="text" th:name="'addrole'+${user.username}" placeholder="Add new role">
-            <button formaction="/admin/delete " formmethod="post" name="update" th:value="${user.username}">
-                Delete
-            </button>
-            <button formaction="/admin/update " formmethod="post" name="update" th:value="${user.username}">
-                Update
-            </button>
-        </p>
-        </c:forEach>
-    </fieldset>
-    <p>
-        <label>Name</label><input type="text" name="nameToAdd">
-        <label>password</label><input type="password" name="passwordToAdd">
-        <label>role</label><input type="text" name="roleToAdd">
-        <button formaction="/admin/add" formmethod="post" name="update" value="addUser">Add User</button>
-    </p>
-</form>
-<div th:replace="logoutfooter :: logout"></div>
-</body>
-</html>-->

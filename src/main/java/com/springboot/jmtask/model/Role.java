@@ -1,5 +1,6 @@
 package com.springboot.jmtask.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -25,6 +26,7 @@ public class Role implements GrantedAuthority {
 
     @ManyToOne
     @JoinColumn(name = "username")
+    @JsonIgnore
     private User user;
 
     public Role() {
